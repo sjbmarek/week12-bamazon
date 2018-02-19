@@ -22,7 +22,7 @@ function manage() {
       name: "action",
       type: "rawlist",
       message: "Select an ACTION: ",
-      choices: ["View Products", "View Low Inventory", "Add To Inventory", "Add New Product"]
+      choices: ["View Products", "View Low Inventory", "Add To Inventory", "Add New Product", "Exit"]
     })
     .then(function(answer) {
     	// console.log(answer);
@@ -35,10 +35,12 @@ function manage() {
       else if (answer.action === "Add To Inventory") {
         addInventory();
       }
-      else {
+      else if (answer.action === "Add New Product"){
       	addProduct();
+      }
+      else {
+      	process.exit();
       };
-
     });
 }
 
