@@ -32,9 +32,9 @@ function manage() {
       else if (answer.action === "View Low Inventory") {
         viewLowInventory();
       }
-      else if (answer.action === "Add to Inventory") {
+      else if (answer.action === "Add To Inventory") {
         addInventory();
-      }
+      };
       // else {
       // 	addProduct();
       // };
@@ -53,7 +53,9 @@ function viewProducts() {
           console.log("\tID: " + res[i].item_id + "\tProduct: " + res[i].product_name + "\tDept: " + res[i].department_name + "\tPrice: $" + res[i].price + "\tQty: " + res[i].stock_quantity);
     };
     console.log("\t----------------------\n\n");
+    manage();
   });
+
 }
 
 
@@ -69,30 +71,19 @@ function viewLowInventory() {
     	}
     };
     console.log("\t----------------------\n\n");
+    manage();
   });
 }
 
-// function addInventory() {
-//   connection.query("SELECT * FROM bamproducts", function(err, res) {
-//     if (err) throw err;
-//     // console.log(res);
-//     console.log("\n\n\tAll BAMAZON Items for Sale");
-//     console.log("\t----------------------");
-//     for (var i = 0; i < res.length; i++) {
-//           console.log("\tID: " + res[i].item_id + "\tProduct: " + res[i].product_name + "\tDept: " + res[i].department_name + "\tPrice: $" + res[i].price + "\tQty: " + res[i].stock_quantity);
-//     };
-//     console.log("\t----------------------\n\n");
-//   });
-// }
 
 function addInventory() {
-	console.log("\nADJUST INVENTORY\n")
+  console.log("ADJUST INVENTORY\n");
   inquirer
     .prompt([
       {
         name: "item",
         type: "input",
-        message: "\nItem ID: ",
+        message: "\nItem ID:  ",
         validate: function(value) {
             if (isNaN(value) === false) {
             return true;
@@ -103,7 +94,7 @@ function addInventory() {
       {
         name: "quantity",
         type: "input",
-        message: "\nAdd Quantity: ",
+        message: "\nQuantity: ",
         validate: function(value) {
           	if (isNaN(value) === false) {
             return true;
@@ -113,38 +104,22 @@ function addInventory() {
       }
     ])
 	.then(function(answer) {
-		console.log ("\nYou selected Item: " + answer.item + " Quantity: "  + answer.quantity);
+		console.log ("\nUpdated1 Item: " + answer.item + " To Quantity: "  + answer.quantity +"\n");
 		connection.query(
-			"SELECT * FROM bamproducts WHERE ?",
-			{
-				item_id: answer.item
-			},
+			"UPDATE bamproducts SET ? WHERE ?",
+		    [
+		      {
+		        stock_quantity: answer.quantity
+		      },
+		      {
+		        item_id: answer.item
+		      }
+		    ],
 			function(err, res) {
 				if (err) throw err;
-				  connection.query(
-				    "UPDATE bamproducts SET ? WHERE ?",
-				    [
-				      {
-				        stock_quantity: res[0].stock_quantity - answer.quantity
-				      },
-				      {
-				        item_id: answer.item
-				      }
-				    ],
-				    function(error) {
-				      if (error) throw err;
-				      console.log("\n________________________________________________");
-				      console.log("PURCHASE SUMMARY\n");
-				      console.log(res[0].product_name + "\tQty: " + answer.quantity + "\tUnit Price: $" + res[0].price);
-				      console.log("\nTotal Price: $" + (res[0].price*answer.quantity).toFixed(2));
-				      console.log("\nThank you.  Successful purchase.");
-				      console.log("________________________________________________\n");
-				      purchaseItem();
-				    }
-				  );
-
-		
+				// console.log(res);
+				manage();
 			}
 		);
 	});
-};
+}

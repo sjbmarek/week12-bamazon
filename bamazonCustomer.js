@@ -13,7 +13,7 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("\nConnected as id: " + connection.threadId);
   console.log("\n_____________________________________\n")
-  purchaseItem();
+  ask();
  });
 
 function listItems() {
@@ -26,18 +26,33 @@ function listItems() {
           console.log("\tID: " + res[i].item_id + "\tProduct: " + res[i].product_name + "\tPrice: $" + res[i].price);
     };
     console.log("\t----------------------\n\n");
+    purchaseItem();
   });
+}
+
+function ask() {
+  inquirer
+    .prompt([
+       {
+        name: "shop",
+        type: "confirm",
+        message: "\nWould you like to shop at BAMAZON?",
+       }
+    ])
+    .then(function(answer) {
+    	if(!answer.shop) {
+    		console.log("\nGood bye.");
+    		process.exit();
+    	} 
+    	else{
+    	listItems();
+    	}
+	});
 }
 
 function purchaseItem() {
   inquirer
     .prompt([
-       {
-    	message: listItems(),
-        name: "shop",
-        type: "confirm",
-        message: "\nWould you like to shop?",
-       },
       {
         name: "item",
         type: "input",
@@ -62,6 +77,7 @@ function purchaseItem() {
       }
     ])
 	.then(function(answer) {
+		console.log(answer);
 		console.log ("\nYou selected Item: " + answer.item + " Quantity: "  + answer.quantity);
 		connection.query(
 			"SELECT * FROM bamproducts WHERE ?",
@@ -70,9 +86,6 @@ function purchaseItem() {
 			},
 			function(err, res) {
 				if (err) throw err;
-				// console.log(res);
-				// console.log("STOCK QTY: " + res[0].stock_quantity);
-
 			if (answer.quantity <= res[0].stock_quantity) {
 		        updateProduct(res,answer);
 		    }
