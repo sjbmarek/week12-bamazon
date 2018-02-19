@@ -41,7 +41,7 @@ function ask() {
     ])
     .then(function(answer) {
     	if(!answer.shop) {
-    		console.log("\nGood bye.");
+    		console.log("\nGood bye.\n");
     		process.exit();
     	} 
     	else{

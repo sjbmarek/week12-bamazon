@@ -25,7 +25,7 @@ function manage() {
       choices: ["View Products", "View Low Inventory", "Add To Inventory", "Add New Product"]
     })
     .then(function(answer) {
-    	console.log(answer);
+    	// console.log(answer);
       if (answer.action === "View Products") {
         viewProducts();
       }
@@ -34,10 +34,10 @@ function manage() {
       }
       else if (answer.action === "Add To Inventory") {
         addInventory();
+      }
+      else {
+      	addProduct();
       };
-      // else {
-      // 	addProduct();
-      // };
 
     });
 }
@@ -60,19 +60,36 @@ function viewProducts() {
 
 
 function viewLowInventory() {
-  connection.query("SELECT * FROM bamproducts", function(err, res) {
-    if (err) throw err;
-    // console.log(res);
-    console.log("\n\n\tBAMAZON Low Inventory Report");
-    console.log("\t----------------------");
-    for (var i = 0; i < res.length; i++) {
-    	if (res[i].stock_quantity<50){
-          console.log("\tID: " + res[i].item_id + "\tProduct: " + res[i].product_name + "\tDept: " + res[i].department_name + "\tPrice: $" + res[i].price + "\tQty: " + res[i].stock_quantity);
-    	}
-    };
-    console.log("\t----------------------\n\n");
-    manage();
-  });
+  inquirer
+    .prompt([
+      {
+        name: "quantity",
+        type: "input",
+        message: "\nInventory Level: ",
+        validate: function(value) {
+          	if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      }
+    ])
+
+    .then(function(answer) {
+	  connection.query(
+	  	"SELECT * FROM bamproducts WHERE stock_quantity <" + answer.quantity, 
+	  	function(err, res) {
+	    if (err) throw err;
+	    // console.log(res);
+	    console.log("\n\n\tBAMAZON Low Inventory Report (items below " + answer.quantity + " units)");
+	    console.log("\t----------------------");
+	    for (var i = 0; i < res.length; i++) {
+	          console.log("\tID: " + res[i].item_id + "\tProduct: " + res[i].product_name + "\tDept: " + res[i].department_name + "\tPrice: $" + res[i].price + "\tQty: " + res[i].stock_quantity);
+	    };
+	    console.log("\t----------------------\n\n");
+	    manage();
+	  });
+	});
 }
 
 
@@ -104,7 +121,7 @@ function addInventory() {
       }
     ])
 	.then(function(answer) {
-		console.log ("\nUpdated1 Item: " + answer.item + " To Quantity: "  + answer.quantity +"\n");
+		console.log ("\nUpdated Item: " + answer.item + " To Quantity: "  + answer.quantity +"\n");
 		connection.query(
 			"UPDATE bamproducts SET ? WHERE ?",
 		    [
@@ -123,3 +140,67 @@ function addInventory() {
 		);
 	});
 }
+
+function addProduct(){
+	  console.log("ADD PRODUCT\n");
+  inquirer
+    .prompt([
+      {
+        name: "product",
+        type: "input",
+        message: "\nProduct Name:  ",
+      },
+      {
+        name: "department",
+        type: "rawlist",
+      	message: "\nSelect a Department: ",
+      choices: ["bakery", "home", "petcare", "produce", "other"]
+      },
+      {
+        name: "price",
+        type: "input",
+        message: "\nPrice: ",
+        validate: function(value) {
+          	if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+      {
+        name: "quantity",
+        type: "input",
+        message: "\nQuantity: ",
+        validate: function(value) {
+          	if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      }
+    ])
+	.then(function(answer) {
+		// console.log (answer);
+		connection.query(
+			"INSERT INTO bamproducts SET ?",
+			{
+				product_name: answer.product,
+				department_name: answer.department,
+				price: answer.price,
+				stock_quantity: answer.quantity
+			},
+			function(err, res) {
+				if (err) throw err;
+				console.log("\nProduct added.\n");
+				manage();
+			}
+		);
+	});
+}
+
+
+
+
+
+
+
