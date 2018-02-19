@@ -29,7 +29,6 @@ function listItems() {
   });
 }
 
-
 function purchaseItem() {
   inquirer
     .prompt([
@@ -39,8 +38,6 @@ function purchaseItem() {
         type: "confirm",
         message: "\nWould you like to shop?",
        },
-
-
       {
         name: "item",
         type: "input",
@@ -77,7 +74,6 @@ function purchaseItem() {
 				// console.log("STOCK QTY: " + res[0].stock_quantity);
 
 			if (answer.quantity <= res[0].stock_quantity) {
-				// var newStockQuantity = res[0].stock_quantity - answer.quantity;
 		        updateProduct(res,answer);
 		    }
 		    else {
