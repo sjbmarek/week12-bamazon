@@ -145,6 +145,8 @@ function addInventory() {
 
 function addProduct(){
 	  console.log("ADD PRODUCT\n");
+	   connection.query("SELECT * FROM departments", function(err, results) {
+   		   if (err) throw err;
   inquirer
     .prompt([
       {
@@ -156,7 +158,14 @@ function addProduct(){
         name: "department",
         type: "rawlist",
       	message: "\nSelect a Department: ",
-      	choices: ["bakery", "home", "petcare", "produce", "other"]
+      	// choices: ["bakery", "home", "petcare", "produce", "other"]
+      	choices: function() {
+            var choiceArray = [];
+            for (var i = 0; i < results.length; i++) {
+              choiceArray.push(results[i].department_name);
+            }
+            return choiceArray;
+          },
       },
       {
         name: "price",
@@ -197,6 +206,8 @@ function addProduct(){
 				manage();
 			}
 		);
+	});
+
 	});
 }
 
