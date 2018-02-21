@@ -77,7 +77,7 @@ function purchaseItem() {
       }
     ])
 	.then(function(answer) {
-		console.log(answer);
+		// console.log(answer);
 		console.log ("\nYou selected Item: " + answer.item + " Quantity: "  + answer.quantity);
 		connection.query(
 			"SELECT * FROM bamproducts WHERE ?",
@@ -90,8 +90,10 @@ function purchaseItem() {
 		        updateProduct(res,answer);
 		    }
 		    else {
-		        console.log("\nInsfficient quantity!\n");
-		        purchaseItem();
+		    	console.log("\n________________________________________________");
+		        console.log("\nINSUFFICIENT QUANTITY - NO PURCHASE!");
+		        console.log("\n________________________________________________");
+		        ask();
 		    };	
 			}
 		);
@@ -117,7 +119,7 @@ function updateProduct(res, answer) {
       console.log("\nTotal Price: $" + (res[0].price*answer.quantity).toFixed(2));
       console.log("\nThank you.  Successful purchase.");
       console.log("________________________________________________\n");
-      purchaseItem();
+      ask();
     }
   );
 }
