@@ -33,8 +33,7 @@ function supervise() {
       }
       else if (answer.action === "Create New Department") {
       	console.log("Create New Department***");
-        // createDepartment();
-        listDepts();
+        createDepartment();
       }
       else {
       	process.exit();
@@ -54,6 +53,50 @@ function listDepts() {
           console.log("\tID: " + res[i].department_id + "\tDept: " + res[i].department_name + "\tOverhead: $" + res[i].over_head_costs);
     };
     console.log("\t----------------------\n\n");
-    // purchaseItem();
+    supervise();
   });
+}
+
+function viewProductSales(){
+
+
+}
+
+//choices in bamazonManager need to be dynamic, not done yet
+function createDepartment(){
+	  console.log("ADD DEPARTMENT\n");
+  inquirer
+    .prompt([
+      {
+        name: "department",
+        type: "input",
+        message: "\nDepartment Name:  ",
+      },
+      {
+        name: "overhead",
+        type: "input",
+        message: "\nOverhead Cost: ",
+        validate: function(value) {
+          	if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+    ])
+	.then(function(answer) {
+		// console.log (answer);
+		connection.query(
+			"INSERT INTO departments SET ?",
+			{
+				department_name: answer.department,
+				over_head_costs: answer.overhead
+			},
+			function(err, res) {
+				if (err) throw err;
+				console.log("\nDepartment added.\n");
+				listDepts();
+			}
+		);
+	});
 }

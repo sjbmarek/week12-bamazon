@@ -156,7 +156,7 @@ function addProduct(){
         name: "department",
         type: "rawlist",
       	message: "\nSelect a Department: ",
-      choices: ["bakery", "home", "petcare", "produce", "other"]
+      	choices: ["bakery", "home", "petcare", "produce", "other"]
       },
       {
         name: "price",

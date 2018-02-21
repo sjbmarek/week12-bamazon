@@ -101,7 +101,7 @@ function purchaseItem() {
 };
 
 function updateProduct(res, answer) {
-  console.log(res);
+  // console.log(res);
   connection.query(
     "UPDATE bamproducts SET ? WHERE ?",
     [
