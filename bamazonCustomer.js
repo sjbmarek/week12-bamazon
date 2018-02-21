@@ -101,18 +101,21 @@ function purchaseItem() {
 };
 
 function updateProduct(res, answer) {
+  console.log(res);
   connection.query(
     "UPDATE bamproducts SET ? WHERE ?",
     [
       {
-        stock_quantity: res[0].stock_quantity - answer.quantity
+        stock_quantity: res[0].stock_quantity - answer.quantity,
+        product_sales: (res[0].product_sales + (res[0].price*answer.quantity)).toFixed(2)
       },
       {
         item_id: answer.item
       }
     ],
     function(error) {
-      if (error) throw err;
+
+      if (error) throw error;
       console.log("\n________________________________________________");
       console.log("PURCHASE SUMMARY\n");
       console.log(res[0].product_name + "\tQty: " + answer.quantity + "\tUnit Price: $" + res[0].price);

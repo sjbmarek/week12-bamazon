@@ -14,19 +14,14 @@ CREATE TABLE products (
 
 
 
+DROP DATABASE IF EXISTS bamazon;
+CREATE database bamazon;
 
+USE bamazon;
 
--- CREATE TABLE books(
---   id INTEGER(11) AUTO_INCREMENT NOT NULL,
---   authorId INTEGER(11),
---   title VARCHAR(100),
---   PRIMARY KEY (id)
--- );
-
--- CREATE TABLE authors(
---   id INTEGER(11) AUTO_INCREMENT NOT NULL,
---   firstName VARCHAR(100),
---   lastName VARCHAR(100),
---   PRIMARY KEY (id)
--- );
-
+CREATE TABLE departments (
+  department_id INTEGER(11) AUTO_INCREMENT NOT NULL,
+  department_name VARCHAR(100),
+  over_head_costs DECIMAL(10,2) NULL,
+  PRIMARY KEY (item_id)
+);
