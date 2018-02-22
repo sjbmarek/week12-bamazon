@@ -11,6 +11,7 @@ Npm packages: MySQL and Inquirer
 ### bamazonCustomer.js  #1: Customer View 
 
 VIDEO CUSTOMER
+https://drive.google.com/file/d/1_WswLgUtq8qY42Z75AU1SA9Yp9j88gVR/view
 
 1. The MySQL Database called `bamazon` has a table called `bamproducts` which contains the product, price, dept and stock information.
 
@@ -25,6 +26,7 @@ VIDEO CUSTOMER
 ### bamazonManager.js #2: Manager View
 
 VIDEO MANAGER
+https://drive.google.com/file/d/1EN4ip1lLFSCd807h3RerLFwnz1IacpqO/view
 
 * The Node application called `bamazonManager.js` has these functions:
 
@@ -41,6 +43,7 @@ VIDEO MANAGER
 ### bamazonSupervisor #3: Supervisor View 
 
 VIDEO SUPERVISOR
+https://drive.google.com/file/d/1RYKHKMyhXjxo1CrI2iuUZmDitpqO0BBI/view
 
 1. Created another MySQL table called `departments` which includes dept id, dept, and overhead cost.
 
