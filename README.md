@@ -4,16 +4,9 @@
 
 ## Overview
 
-In this activity, I created an Amazon-like storefront with the MySQL. The app will take in orders from customers and deplete stock from the store's inventory. As a bonus task, you can program your app to track product sales across your store's departments and then provide a summary of the highest-grossing departments in the store.
+In this activity, I created an Amazon-like storefront with MySQL. The app will take in orders from customers and deplete stock from the store's inventory. As a bonus task, you can program your app to track product sales across your store's departments and then provide a summary of the highest-grossing departments in the store.
 
-MySQL and Inquirer npm packages are used.
-
-## Submission Guide
-
-Make sure you use the normal GitHub. Because this is a CLI App, there will be no need to deploy it to Heroku. This time, though, you need to include screenshots, a gif, and/or a video showing us that you got the app working with no bugs. You can include these screenshots or a link to a video in a `README.md` file.
-
-* Include screenshots (or a video) of typical user flows through your application (for the customer and if relevant the manager/supervisor). This includes views of the prompts and the responses after their selection (for the different selection options).
-
+Npm packages: MySQL and Inquirer 
 
 ### bamazonCustomer.js  #1: Customer View 
 
@@ -58,12 +51,10 @@ VIDEO SUPERVISOR
    
    * Create New Department
 
-5. Selecting `View Product Sales by Department`, the app should display a summarized table in their terminal/bash window. Use the table below as a guide.
+3. `View Product Sales by Department`, the app displays a summarized table which includes:
 
-| department_id | department_name | over_head_costs | product_sales | total_profit |
-| ------------- | --------------- | --------------- | ------------- | ------------ |
-| 01            | Electronics     | 10000           | 20000         | 10000        |
-| 02            | Clothing        | 60000           | 100000        | 40000        |
-
-6. The `total_profit` column should be calculated on the fly using the difference between `over_head_costs` and `product_sales`. `total_profit` should not be stored in any database. You should use a custom alias.
-
+department_id
+department_name
+over_head_costs
+product_sales
+total_profit
