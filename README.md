@@ -4,7 +4,7 @@
 
 ## Overview
 
-In this activity, I created an Amazon-like storefront with MySQL. The app will take in orders from customers and deplete stock from the store's inventory. As a bonus task, you can program your app to track product sales across your store's departments and then provide a summary of the highest-grossing departments in the store.
+In this activity, I created an Amazon-like storefront with MySQL. The app will take in orders from customers and deplete stock from the store's inventory. Three views are available: Customer, Manager, Supervisor.
 
 Npm packages: MySQL and Inquirer 
 
@@ -53,8 +53,10 @@ VIDEO SUPERVISOR
 
 3. `View Product Sales by Department`, the app displays a summarized table which includes:
 
-department_id
-department_name
-over_head_costs
-product_sales
-total_profit
+department id
+department name
+overhead cost
+product sales
+total profit which is a calculated number
+
+This view is the result of a MySQL query using JOIN, GROUP BY and SUM.
