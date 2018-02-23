@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var Table = require('cli-table');
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -14,69 +15,78 @@ connection.connect(function(err) {
   console.log("\nConnected as id: " + connection.threadId);
   console.log("\n_____________________________________\n")
   ask();
- });
+});
 
 function listItems() {
   connection.query("SELECT * FROM bamproducts", function(err, res) {
     if (err) throw err;
     // console.log(res);
+    var table = new Table({
+      head: ['ID', 'Product','Price'], colWidths: [5, 20, 10]
+    });
+
     console.log("\n\n\tBAMAZON Items for Sale");
     console.log("\t----------------------");
     for (var i = 0; i < res.length; i++) {
-          console.log("\tID: " + res[i].item_id + "\tProduct: " + res[i].product_name + "\tPrice: $" + res[i].price);
-    };
-    console.log("\t----------------------\n\n");
-    purchaseItem();
-  });
+          // console.log("\tID: " + res[i].item_id + "\tProduct: " + res[i].product_name + "\tPrice: $" + res[i].price);
+          table.push(
+            [res[i].item_id, res[i].product_name, "$" + res[i].price] 
+            );
+        };
+        console.log(table.toString());
+
+        console.log("\t----------------------\n\n");
+        purchaseItem();
+      });
 }
 
 function ask() {
   inquirer
-    .prompt([
-       {
-        name: "shop",
-        type: "confirm",
-        message: "\nWould you like to shop at BAMAZON?",
-       }
-    ])
-    .then(function(answer) {
-    	if(!answer.shop) {
-    		console.log("\nGood bye.\n");
-    		process.exit();
-    	} 
-    	else{
-    	listItems();
-    	}
-	});
+  .prompt([
+  {
+    name: "shop",
+    type: "confirm",
+    message: "\nWould you like to shop at BAMAZON?",
+  }
+  ])
+  .then(function(answer) {
+   if(!answer.shop) {
+    console.log("\nGood bye.\n");
+    process.exit();
+  } 
+  else{
+   listItems();
+ }
+});
 }
 
 function purchaseItem() {
   inquirer
-    .prompt([
-      {
-        name: "item",
-        type: "input",
-        message: "\nWhat is the item ID you would like to purchase?",
-        validate: function(value) {
-            if (isNaN(value) === false) {
-            return true;
-          }
-          return false;
-        }
-      },
-      {
-        name: "quantity",
-        type: "input",
-        message: "\nWhat quantity would you like?",
-        validate: function(value) {
-          	if (isNaN(value) === false) {
-            return true;
-          }
-          return false;
-        }
+  .prompt([
+  {
+    name: "item",
+    type: "input",
+    message: "\nWhat is the item ID you would like to purchase?",
+    validate: function(value) {
+      if (isNaN(value) === false) {
+        return true;
       }
-    ])
-	.then(function(answer) {
+      return false;
+    }
+  },
+  {
+    name: "quantity",
+    type: "input",
+    message: "\nWhat quantity would you like?",
+    validate: function(value) {
+     if (isNaN(value) === false) {
+      return true;
+    }
+    return false;
+  }
+}
+])
+  .then(function(answer) {
 		// console.log(answer);
 		console.log ("\nYou selected Item: " + answer.item + " Quantity: "  + answer.quantity);
 		connection.query(
@@ -86,17 +96,17 @@ function purchaseItem() {
 			},
 			function(err, res) {
 				if (err) throw err;
-			if (answer.quantity <= res[0].stock_quantity) {
-		        updateProduct(res,answer);
-		    }
-		    else {
-		    	console.log("\n________________________________________________");
-		        console.log("\nINSUFFICIENT QUANTITY - NO PURCHASE!");
-		        console.log("\n________________________________________________");
-		        ask();
-		    };	
-			}
-		);
+       if (answer.quantity <= res[0].stock_quantity) {
+        updateProduct(res,answer);
+      }
+      else {
+       console.log("\n________________________________________________");
+       console.log("\nINSUFFICIENT QUANTITY - NO PURCHASE!");
+       console.log("\n________________________________________________");
+       ask();
+     };	
+   }
+   );
 	});
 };
 
@@ -105,13 +115,13 @@ function updateProduct(res, answer) {
   connection.query(
     "UPDATE bamproducts SET ? WHERE ?",
     [
-      {
-        stock_quantity: res[0].stock_quantity - answer.quantity,
-        product_sales: (res[0].product_sales + (res[0].price*answer.quantity)).toFixed(2)
-      },
-      {
-        item_id: answer.item
-      }
+    {
+      stock_quantity: res[0].stock_quantity - answer.quantity,
+      product_sales: (res[0].product_sales + (res[0].price*answer.quantity)).toFixed(2)
+    },
+    {
+      item_id: answer.item
+    }
     ],
     function(error) {
 
@@ -124,6 +134,6 @@ function updateProduct(res, answer) {
       console.log("________________________________________________\n");
       ask();
     }
-  );
+    );
 }
 
