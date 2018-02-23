@@ -26,7 +26,7 @@ https://drive.google.com/file/d/1dehIUVDaNJq8iF3IHKWg-QOFUnkvJdA8/view
 ### bamazonManager.js #2: Manager View
 
 VIDEO MANAGER
-https://drive.google.com/file/d/1B8tWuFW3OLrqF577pbPv-1uogmP7wzKL/view
+https://drive.google.com/file/d/1tbSjd9nVbfk5ze5FfiBv09NakDoIxwnm/view
 
 * The Node application called `bamazonManager.js` has these functions:
 
@@ -43,7 +43,7 @@ https://drive.google.com/file/d/1B8tWuFW3OLrqF577pbPv-1uogmP7wzKL/view
 ### bamazonSupervisor #3: Supervisor View 
 
 VIDEO SUPERVISOR
-https://drive.google.com/file/d/1RYKHKMyhXjxo1CrI2iuUZmDitpqO0BBI/view
+https://drive.google.com/file/d/1B8tWuFW3OLrqF577pbPv-1uogmP7wzKL/view
 
 1. Created another MySQL table called `departments` which includes dept id, dept, and overhead cost.
 
