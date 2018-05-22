@@ -6,7 +6,7 @@
 
 In this activity, I created an Amazon-like storefront with MySQL. The app will take in orders from customers and deplete stock from the store's inventory. Three views are available: Customer, Manager, Supervisor.
 
-Npm packages: MySQL and Inquirer 
+Npm packages: MySQL, Inquirer, cli-table
 
 ### bamazonCustomer.js  #1: Customer View 
 
